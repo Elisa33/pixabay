@@ -6,17 +6,16 @@ window.onload = () => {
 	formulario.addEventListener('submit', validarFormulario);
 };
 
-const apiKey = '1362366-2f4384e21f5db730c4eefbb59';
-
 function validarFormulario(e) {
 	e.preventDefault();
 	const terminoBusqueda = document.querySelector('#termino').value;
+
 	if (terminoBusqueda === '') {
 		mostrarAlerta('Agrega un término de búsqueda');
-	} else {
-		console.log('buscando');
+		return;
 	}
-	return;
+
+	buscarImagenes(terminoBusqueda);
 }
 
 function mostrarAlerta(mensaje) {
@@ -39,4 +38,16 @@ function mostrarAlerta(mensaje) {
 			alerta.remove();
 		}, 3000);
 	}
+}
+
+function buscarImagenes(termino) {
+	const key = '1362366-2f4384e21f5db730c4eefbb59';
+	const url = `https://pixabay.com/api/?key=${key}&q=${termino}`;
+	console.log(url);
+
+	fetch(url)
+		.then((respuesta) => respuesta.json())
+		.then((resultado) => {
+			mostrarImagenes(resultado.hits);
+		});
 }
