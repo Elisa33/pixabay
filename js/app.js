@@ -2,7 +2,7 @@ const formulario = document.querySelector('#formulario');
 const resultado = document.querySelector('#resultado');
 const paginacionDiv = document.querySelector('#paginacion');
 
-const registroPorPagina = 40;
+const registroPorPagina = 30;
 let totalPaginas;
 let iterador;
 
@@ -52,12 +52,17 @@ function buscarImagenes(termino) {
 		.then((respuesta) => respuesta.json())
 		.then((resultado) => {
 			totalPaginas = calcularPaginas(resultado.totalHits);
+			//console.log('total paginas' + totalPaginas);
 			mostrarImagenes(resultado.hits);
 		});
 }
 // generador
 function* crearPaginador(total) {
+	console.log('paginador total ' + total);
+
 	for (let i = 1; i <= total; i++) {
+		//console.log(i);
+
 		yield i;
 	}
 }
@@ -83,7 +88,6 @@ function mostrarImagenes(imagenes) {
 				<a class='block w-full bg-blue-800 hover:bg-blue-500 text-white uppercase font-bold text-center rounded mt-5 p-1' href='${largeImageURL}' target='_blank' rel='noopener noreferrer'> Ver imágen </a>
 			</div>
             </div>
-        
         </div>
         `;
 	});
@@ -94,30 +98,31 @@ function mostrarImagenes(imagenes) {
 	}
 
 	imprimirPaginador();
+	//probar poner aca todo el codigo de imprimir generador
 }
 
 function imprimirPaginador() {
 	iterador = crearPaginador(totalPaginas);
 
-	console.log('while 104');
+	while (true) {
+		const { value, done } = iterador.next();
+		if (done) return;
+		const boton = document.createElement('a');
+		boton.href = '#';
+		boton.dataset.pagina = value;
+		boton.textContent = value;
+		boton.classList.add(
+			'siguiente',
+			'mb-4',
+			'bg-yellow-400',
+			'px-4',
+			'py-1',
+			'mr-2',
+			'font-bold',
+			'uppercase',
+			'rounded'
+		);
 
-	const { value, done } = iterador.next;
-	if (done) return;
-	const boton = document.createElement('a');
-	boton.href = '#';
-	boton.dataset.pagina = value;
-	boton.textContent = value;
-	boton.classList.add(
-		'mb-4',
-		'bg-yellow-400',
-		'px-4',
-		'py-1',
-		'font-bold',
-		'uppercase',
-		'rounded',
-		'flex',
-		'flex-wrap'
-	);
-
-	paginacionDiv.appendChild(boton);
+		paginacionDiv.appendChild(boton);
+	}
 }
