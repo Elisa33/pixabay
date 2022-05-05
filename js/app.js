@@ -92,14 +92,16 @@ function mostrarImagenes(imagenes) {
 	imagenes.forEach((imagen) => {
 		const { previewURL, likes, views, largeImageURL } = imagen;
 		resultado.innerHTML += `
-        <div class='w-1/2 md:w1/3 lg:w-1/4 p-3 mb-4'>
-            <div class="bg-white">
-              <img class='w-full'src='${previewURL}'>
-            <div class='p-4'>
-				<p class='font-bold'> ${likes}<span class='font-light'> Me gusta </span> </p>
-				<p class='font-bold'> ${views}<span class='font-light'> Veces vista </span> </p>
-				<a class='block w-full bg-blue-800 hover:bg-blue-500 text-white uppercase font-bold text-center rounded mt-5 p-1' href='${largeImageURL}' target='_blank' rel='noopener noreferrer'> Ver imágen </a>
+        <div class=''>
+            <div class="bg-white rounded-lg overflow-hidden">
+			<div class="h-32 lg:h-40 overflow-hidden">
+				<img class='w-full h-full object-cover'src='${previewURL}'>
 			</div>
+				<div class='p-4'>
+					<p class='font-bold'> ${likes}<span class='font-light'> Me gusta </span> </p>
+					<p class='font-bold'> ${views}<span class='font-light'> Veces vista </span> </p>
+					<a class='block w-full bg-blue-800 hover:bg-blue-500 text-white uppercase font-bold text-center rounded mt-5 p-1' href='${largeImageURL}' target='_blank' rel='noopener noreferrer'> Ver imágen </a>
+				</div>
             </div>
         </div>
         `;
